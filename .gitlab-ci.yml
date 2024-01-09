@@ -1,0 +1,35 @@
+variables:
+  PROJECT: saas-rundeck
+
+stages:
+  - repo scanning 
+  - build
+  - image scan
+
+include:
+  - project: 'saas/saas-ci'
+    file:
+    - '/templates/.common-build-tools.yml'
+    - '/templates/.docker-builds.yml'
+    - '/templates/.scanning-tools.yml'
+
+build_dev:
+  extends:
+    - .docker-fork-build
+
+build_merge:
+  extends:
+    - .docker-merge-build
+
+build_tag:
+  extends:
+    - .docker-tag-build
+
+twistlock:
+  extends:
+    - .twistlock-base
+
+mend:
+  extends:
+    - .mend-base
+
